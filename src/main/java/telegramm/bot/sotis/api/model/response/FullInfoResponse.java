@@ -16,4 +16,5 @@ public class FullInfoResponse {
 
     private List<CoordinateTable> coordinateTable;
     private List<String> housesInfo;
+    private List<String> aspectsInfo;
 }

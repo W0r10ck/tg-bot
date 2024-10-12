@@ -33,10 +33,6 @@ public class FindCityPage {
     @FindBy(xpath = "//div[contains(@class,'list')]/div")
     private List<WebElement> findCities;
 
-    public boolean isOpenedFindCityPage() {
-        return findCityInputPage.isDisplayed();
-    }
-
     public void inputCityForSearch(final String city) {
         WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@id,'getcity')]")));

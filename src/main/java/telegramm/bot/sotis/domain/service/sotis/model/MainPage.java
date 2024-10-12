@@ -27,15 +27,33 @@ public class MainPage {
     private WebElement createNewBtn;
 
 
+    @FindBy(xpath = "//li[contains(text(),'Инструменты')]")
+    private WebElement instrumentsBtn;
+
+    @FindBy(xpath = "//li[contains(@data-mi,'addAsptbl')]")
+    private WebElement aspectsTableBtn;
+
     public void clickHoroscopeBtn() {
         WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[contains(text(),'Гороскоп')]")));
         horoscopeBtn.click();
     }
 
+    public void clickInstrumentsBtn() {
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[contains(text(),'Инструменты')]")));
+        instrumentsBtn.click();
+    }
+
     public void clickCreateNewBtn() {
         WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[contains(@data-mi,'new')]")));
         createNewBtn.click();
+    }
+
+    public void clickAspectsTableBtn() {
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[contains(@data-mi,'addAsptbl')]")));
+        aspectsTableBtn.click();
     }
 }

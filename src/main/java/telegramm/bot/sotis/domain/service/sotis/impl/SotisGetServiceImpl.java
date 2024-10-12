@@ -30,6 +30,7 @@ public class SotisGetServiceImpl implements SotisGetService {
     public static DialogPage dialogPage;
     public static FindCityPage findCityPage;
     public static ResultPage resultPage;
+    public static AspectsPage aspectsPage;
 
     public List<String> planetCodeList = Arrays.asList(
             "'PLANET','0:11'",
@@ -84,6 +85,7 @@ public class SotisGetServiceImpl implements SotisGetService {
             return FullInfoResponse.init()
                     .setCoordinateTable(getCoordinateTableList())
                     .setHousesInfo(getHousesInfo())
+                    .setAspectsInfo(getAspectsInfo())
                     .build();
         } finally {
             driver.quit();
@@ -99,6 +101,7 @@ public class SotisGetServiceImpl implements SotisGetService {
         dialogPage = new DialogPage(driver);
         findCityPage = new FindCityPage(driver);
         resultPage = new ResultPage(driver);
+        aspectsPage = new AspectsPage(driver);
         driver.get("https://sotis-online.ru/");
         driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(10, SECONDS);
@@ -145,5 +148,12 @@ public class SotisGetServiceImpl implements SotisGetService {
                         }
                 ).collect(Collectors.toList());
 
+    }
+
+    private List<String> getAspectsInfo() {
+       mainPage.clickInstrumentsBtn();
+       mainPage.clickAspectsTableBtn();
+
+       return aspectsPage.getAspects();
     }
 }
