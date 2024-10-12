@@ -7,14 +7,15 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.stereotype.Service;
 import telegramm.bot.sotis.api.model.request.CitiesRequest;
 import telegramm.bot.sotis.api.model.request.FullInfoRequest;
+import telegramm.bot.sotis.api.model.response.CoordinateTable;
 import telegramm.bot.sotis.api.model.response.FullInfoResponse;
 import telegramm.bot.sotis.domain.service.sotis.SotisGetService;
-import telegramm.bot.sotis.domain.service.sotis.model.DialogPage;
-import telegramm.bot.sotis.domain.service.sotis.model.FindCityPage;
-import telegramm.bot.sotis.domain.service.sotis.model.MainPage;
-import telegramm.bot.sotis.domain.service.sotis.model.NewCardPage;
+import telegramm.bot.sotis.domain.service.sotis.model.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -28,9 +29,22 @@ public class SotisGetServiceImpl implements SotisGetService {
     public static NewCardPage newCardPage;
     public static DialogPage dialogPage;
     public static FindCityPage findCityPage;
+    public static ResultPage resultPage;
 
-
-
+    public List<String> planetCodeList = Arrays.asList(
+            "'PLANET','0:11'",
+            "'PLANET','0:7'",
+            "'PLANET','0:56'",
+            "'PLANET','0:5'",
+            "'PLANET','0:4'",
+            "'PLANET','0:12'",
+            "'PLANET','0:0'",
+            "'PLANET','0:2'",
+            "'PLANET','0:1'",
+            "'PLANET','0:9'",
+            "'PLANET','0:6'",
+            "'PLANET','0:8'"
+    );
 
 
     @Override
@@ -64,12 +78,13 @@ public class SotisGetServiceImpl implements SotisGetService {
             newCardPage.inputMinute(source.getMinute());
             newCardPage.inputSec(source.getSecond());
             newCardPage.clickPlaceInput();
-            findCityPage.clickCity(source.getCityShort(),source.getCityFull());
+            findCityPage.clickCity(source.getCityShort(), source.getCityFull());
             newCardPage.clickOk();
 
-
-
-            return null;
+            return FullInfoResponse.init()
+                    .setCoordinateTable(getCoordinateTableList())
+                    .setHousesInfo(getHousesInfo())
+                    .build();
         } finally {
             driver.quit();
         }
@@ -83,13 +98,52 @@ public class SotisGetServiceImpl implements SotisGetService {
         newCardPage = new NewCardPage(driver);
         dialogPage = new DialogPage(driver);
         findCityPage = new FindCityPage(driver);
+        resultPage = new ResultPage(driver);
         driver.get("https://sotis-online.ru/");
         driver.manage().window().maximize();
-        driver.manage().timeouts().pageLoadTimeout(10,SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(10, SECONDS);
 
         mainPage.clickHoroscopeBtn();
         mainPage.clickCreateNewBtn();
 
         dialogPage.clickSingleCardBtn();
+    }
+
+    private List<CoordinateTable> getCoordinateTableList() {
+        var result = new ArrayList<CoordinateTable>();
+
+        for (int i = 0; i < 16; i++) {
+            result.add(
+                    CoordinateTable.init()
+                            .setLeft(resultPage.getLeftPlanetByIndex(i + 1))
+                            .setMiddle(resultPage.getMiddlePlanetByIndex(i + 1))
+                            .setRight(resultPage.getRightPlanetByIndex(i + 1))
+                            .build()
+            );
+        }
+        for (int i = 0; i < 12; i++) {
+            result.add(
+                    CoordinateTable.init()
+                            .setLeft(resultPage.getLeftHouseByIndex(i + 1))
+                            .setMiddle(resultPage.getMiddleHouseByIndex(i + 1))
+                            .setRight(resultPage.getRightHouseByIndex(i + 1))
+                            .build()
+            );
+        }
+
+        return result;
+    }
+
+    private List<String> getHousesInfo() {
+        return planetCodeList.stream()
+                .map(t -> {
+                            var result = "";
+                            resultPage.clickPlanet(t);
+                            result = resultPage.getInfoAboutHouse();
+                            resultPage.clickExitPlanet();
+                            return result;
+                        }
+                ).collect(Collectors.toList());
+
     }
 }
