@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static java.time.Duration.ofSeconds;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 public class NewCardPage {
 
@@ -56,14 +57,14 @@ public class NewCardPage {
 
 
     public void clickPlaceInput() {
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@id,'enter')]")));
         placeInput.click();
     }
 
 
     public void selectMale(final String male) {
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'sex')]/select")));
 
         if (isNull(maleDropDown)) {
@@ -80,38 +81,52 @@ public class NewCardPage {
     }
 
     public void inputName(final String name) {
-        nameInput.clear();
-        nameInput.sendKeys(name);
+        if (nonNull(name)) {
+            nameInput.clear();
+            nameInput.sendKeys(name);
+        }
     }
 
     public void inputDay(final String day) {
-        dayInput.clear();
-        dayInput.sendKeys(day);
+        if (nonNull(day)) {
+            dayInput.clear();
+            dayInput.sendKeys(day);
+        }
     }
 
     public void inputMonth(final String month) {
-        monthInput.clear();
-        monthInput.sendKeys(month);
+        if (nonNull(month)) {
+            monthInput.clear();
+            monthInput.sendKeys(month);
+        }
     }
 
     public void inputYear(final String year) {
-        yearInput.clear();
-        yearInput.sendKeys(year);
+        if (nonNull(year)) {
+            yearInput.clear();
+            yearInput.sendKeys(year);
+        }
     }
 
     public void inputHour(final String hour) {
-        hourInput.clear();
-        hourInput.sendKeys(hour);
+        if (nonNull(hour)) {
+            hourInput.clear();
+            hourInput.sendKeys(hour);
+        }
     }
 
     public void inputMinute(final String minute) {
-        minInput.clear();
-        minInput.sendKeys(minute);
+        if (nonNull(minute)) {
+            minInput.clear();
+            minInput.sendKeys(minute);
+        }
     }
 
     public void inputSec(final String sec) {
-        secInput.clear();
-        secInput.sendKeys(sec);
+        if (nonNull(sec)) {
+            secInput.clear();
+            secInput.sendKeys(sec);
+        }
     }
 
     public void clickOk() {

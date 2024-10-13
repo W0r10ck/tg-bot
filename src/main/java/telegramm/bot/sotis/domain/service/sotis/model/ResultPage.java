@@ -47,7 +47,7 @@ public class ResultPage {
     }
 
     public String getMiddlePlanetByIndex(Integer indexTr) {
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
         wait.until(
                 presenceOfAllElementsLocatedBy(
                         By.xpath("//table[contains(@class,'coord')]//tr[" + indexTr + "]/td[" + 1 + "]")
@@ -95,7 +95,7 @@ public class ResultPage {
 
     public void clickPlanet(String planetCode) {
         var xpath = "//*[name()='g' and @class='obj'][contains(@onclick,\"" + planetCode + "\")]";
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
         wait.until(presenceOfAllElementsLocatedBy(
                 By.xpath("//*[name()='g' and @class='zodiak']"))
         );
@@ -115,7 +115,7 @@ public class ResultPage {
     }
 
     public String getInfoAboutHouse() {
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
         wait.until(visibilityOfElementLocated(
                 By.xpath("//div[contains(@id,'cont')]//*[contains(text(),'дом')]"))
         );

@@ -33,14 +33,14 @@ public class FindCityPage {
     private List<WebElement> findCities;
 
     public void inputCityForSearch(final String city) {
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@id,'getcity')]")));
         findCityInput.sendKeys(city);
     }
 
     public List<String> getCities(final String city) {
         inputCityForSearch(city);
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'list')]/div")));
         if (findCities.isEmpty()) {
             return Collections.emptyList();
@@ -50,7 +50,7 @@ public class FindCityPage {
 
     public void clickCity(final String cityShort, final String cityFull) {
         inputCityForSearch(cityShort);
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'list')]/div")));
 
         findCities.stream().filter(e -> e.getText().contains(cityFull)).findFirst().ifPresent(WebElement::click);

@@ -31,7 +31,7 @@ public class AspectsPage {
     private List<WebElement> findCities;
 
     public List<String> getAspects() {
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table[contains(@id,'atbl')]")));
         if (findCities.isEmpty()) {
             return Collections.emptyList();
