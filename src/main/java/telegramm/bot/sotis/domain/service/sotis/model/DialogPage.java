@@ -31,7 +31,7 @@ public class DialogPage {
     }
 
     public void clickSingleCardBtn() {
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(40L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@id,'newchart')]")));
         singleCardBtn.click();
     }

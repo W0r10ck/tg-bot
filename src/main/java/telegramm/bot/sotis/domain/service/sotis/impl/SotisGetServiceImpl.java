@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.tags.form.SelectTag;
 import telegramm.bot.sotis.api.model.request.CitiesRequest;
 import telegramm.bot.sotis.api.model.request.FullInfoRequest;
 import telegramm.bot.sotis.api.model.response.CoordinateTable;
@@ -14,9 +15,7 @@ import telegramm.bot.sotis.api.model.response.FullInfoResponse;
 import telegramm.bot.sotis.domain.service.sotis.SotisGetService;
 import telegramm.bot.sotis.domain.service.sotis.model.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -141,8 +140,8 @@ public class SotisGetServiceImpl implements SotisGetService {
     private List<String> getHousesInfo() {
         resultPage.removeNotClickPlanet();
         List<String> result = new ArrayList<>();
-        List<String> listA = new ArrayList<>();
-        List<String> listB = new ArrayList<>();
+        Set<String> listA = new HashSet<>();
+        Set<String> listB = new HashSet<>();
 
         planetCodeList.forEach(t -> {
             try {

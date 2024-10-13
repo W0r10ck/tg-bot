@@ -47,7 +47,7 @@ public class ResultPage {
     }
 
     public String getMiddlePlanetByIndex(Integer indexTr) {
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(40L));
         wait.until(
                 presenceOfAllElementsLocatedBy(
                         By.xpath("//table[contains(@class,'coord')]//tr[" + indexTr + "]/td[" + 1 + "]")
@@ -95,7 +95,7 @@ public class ResultPage {
 
     public void clickPlanet(String planetCode) {
         var xpath = "//*[name()='g' and @class='obj'][contains(@onclick,\"" + planetCode + "\")]";
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(40L));
         wait.until(presenceOfAllElementsLocatedBy(
                 By.xpath("//*[name()='g' and @class='zodiak']"))
         );
@@ -115,7 +115,7 @@ public class ResultPage {
     }
 
     public String getInfoAboutHouse() {
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(40L));
         wait.until(visibilityOfElementLocated(
                 By.xpath("//div[contains(@id,'cont')]//*[contains(text(),'дом')]"))
         );
@@ -129,7 +129,6 @@ public class ResultPage {
         driver.findElement(By.xpath("//div[contains(@class,'close')]")).click();
     }
 
-
     public void removeNotClickPlanet() {
         removeNotClickPlanet("'PLANET','0:-11'");
         removeNotClickPlanet("'PLANET','0:15'");
@@ -137,25 +136,13 @@ public class ResultPage {
     }
 
     public void removeNotClickPlanet(final String planetCode) {
-        var xpathEnd = "//*[name()='g' and @class='obj'][contains(@onclick,\"" + planetCode + "\")]/*[name()='text'][contains(@text-anchor,'end')]";
-        var xpathStart = "//*[name()='g' and @class='obj'][contains(@onclick,\"" + planetCode + "\")]/*[name()='text'][contains(@text-anchor,'start')]";
-        var removeEnd = driver.findElement(By.xpath(xpathEnd));
+        var xpath = "//*[name()='g' and @class='obj'][contains(@onclick,\"" + planetCode + "\")]/*[name()='text']";
 
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        executor.executeScript("arguments[0].remove();", removeEnd);
-        var removeStart = driver.findElement(By.xpath(xpathStart));
-        executor.executeScript("arguments[0].remove();", removeStart);
+        driver.findElements(By.xpath(xpath))
+                .forEach(t -> {
+                            JavascriptExecutor executor = (JavascriptExecutor) driver;
+                            executor.executeScript("arguments[0].remove();", t);
+                        }
+                );
     }
-
-    public Set<String> getSortedList(final List<String> source) {
-        Set<String> reuslt = new HashSet<>();
-
-        while (reuslt.size() != source.size()) {
-
-        }
-
-
-        return reuslt;
-    }
-
 }

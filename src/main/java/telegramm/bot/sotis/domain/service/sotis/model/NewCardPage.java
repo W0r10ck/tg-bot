@@ -57,14 +57,14 @@ public class NewCardPage {
 
 
     public void clickPlaceInput() {
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(40L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@id,'enter')]")));
         placeInput.click();
     }
 
 
     public void selectMale(final String male) {
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(10L));
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(40L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'sex')]/select")));
 
         if (isNull(maleDropDown)) {
