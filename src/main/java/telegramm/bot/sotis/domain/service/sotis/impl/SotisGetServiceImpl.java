@@ -2,6 +2,7 @@ package telegramm.bot.sotis.domain.service.sotis.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ public class SotisGetServiceImpl implements SotisGetService {
 
     public List<String> planetCodeList = Arrays.asList(
             "'PLANET','0:11'",
+            "'PLANET','0:6'",
             "'PLANET','0:7'",
             "'PLANET','0:56'",
             "'PLANET','0:5'",
@@ -43,7 +45,6 @@ public class SotisGetServiceImpl implements SotisGetService {
             "'PLANET','0:2'",
             "'PLANET','0:1'",
             "'PLANET','0:9'",
-            "'PLANET','0:6'",
             "'PLANET','0:8'"
     );
 
@@ -138,16 +139,53 @@ public class SotisGetServiceImpl implements SotisGetService {
     }
 
     private List<String> getHousesInfo() {
-        return planetCodeList.stream()
-                .map(t -> {
-                            var result = "";
-                            resultPage.clickPlanet(t);
-                            result = resultPage.getInfoAboutHouse();
-                            resultPage.clickExitPlanet();
-                            return result;
-                        }
-                ).collect(Collectors.toList());
+        resultPage.removeNotClickPlanet();
+        List<String> result = new ArrayList<>();
+        List<String> listA = new ArrayList<>();
+        List<String> listB = new ArrayList<>();
 
+        planetCodeList.forEach(t ->{
+            try {
+                var resultString = "";
+                resultPage.clickPlanet(t);
+                resultString = resultPage.getInfoAboutHouse();
+                resultPage.clickExitPlanet();
+                resultPage.removeNotClickPlanet(t);
+                result.add(resultString);
+            } catch (ElementClickInterceptedException e) {
+                listA.add(t);
+            }
+        });
+
+        while (!listA.isEmpty()) {
+            listA.forEach(t ->{
+                try {
+                    var resultString = "";
+                    resultPage.clickPlanet(t);
+                    resultString = resultPage.getInfoAboutHouse();
+                    resultPage.clickExitPlanet();
+                    resultPage.removeNotClickPlanet(t);
+                    result.add(resultString);
+                } catch (ElementClickInterceptedException e) {
+                    listB.add(t);
+                }
+            });
+            listA.clear();
+            listB.forEach(t ->{
+                try {
+                    var resultString = "";
+                    resultPage.clickPlanet(t);
+                    resultString = resultPage.getInfoAboutHouse();
+                    resultPage.clickExitPlanet();
+                    resultPage.removeNotClickPlanet(t);
+                    result.add(resultString);
+                } catch (ElementClickInterceptedException e) {
+                    listA.add(t);
+                }
+            });
+        }
+
+        return result;
     }
 
     private List<String> getAspectsInfo() {

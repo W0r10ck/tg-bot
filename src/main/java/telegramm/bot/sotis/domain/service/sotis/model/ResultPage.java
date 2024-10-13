@@ -1,13 +1,20 @@
 package telegramm.bot.sotis.domain.service.sotis.model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static java.time.Duration.ofSeconds;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static telegramm.bot.sotis.domain.service.util.CommonUtils.changeHouse;
 
 public class ResultPage {
@@ -41,7 +48,12 @@ public class ResultPage {
     }
 
     public String getMiddlePlanetByIndex(Integer indexTr) {
-
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
+        wait.until(
+                presenceOfAllElementsLocatedBy(
+                        By.xpath("//table[contains(@class,'coord')]//tr[" + indexTr + "]/td[" + 1 + "]")
+                )
+        );
         return driver.findElement(
                 By.xpath("//table[contains(@class,'coord')]//tr[" + indexTr + "]/td[" + 1 + "]")
         ).getText();
@@ -77,26 +89,29 @@ public class ResultPage {
     }
 
     public void clickPlanet(String planetCode) {
+        var xpath = "//*[name()='g' and @class='obj'][contains(@onclick,\"" + planetCode + "\")]";
         WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
-        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(
+        wait.until(presenceOfAllElementsLocatedBy(
                 By.xpath("//*[name()='g' and @class='zodiak']"))
         );
         try {
-            var planet = driver.findElement(
-                    By.xpath("//*[name()='g' and @class='obj'][contains(@onclick,\"" + planetCode + "\")]")
-            );
-            planet.click();
+            wait.until(elementToBeClickable(By.xpath(xpath))).click();
+
         } catch (StaleElementReferenceException ex) {
-            var planet = driver.findElement(
-                    By.xpath("//*[name()='g' and @class='obj'][contains(@onclick,\"" + planetCode + "\")]")
-            );
-            planet.click();
+            wait.until(elementToBeClickable(By.xpath(xpath))).click();
+            var planet = driver.findElement(By.xpath(xpath));
+
+            new Actions(driver)
+                    .moveToElement(planet)
+                    .click()
+                    .build()
+                    .perform();
         }
     }
 
     public String getInfoAboutHouse() {
         WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(
+        wait.until(visibilityOfElementLocated(
                 By.xpath("//div[contains(@id,'cont')]//*[contains(text(),'дом')]"))
         );
         var result = driver.findElement(By.xpath("//div[contains(@id,'cont')]//*[contains(text(),'доме')]"))
@@ -106,8 +121,38 @@ public class ResultPage {
     }
 
     public void clickExitPlanet() {
-
         driver.findElement(By.xpath("//div[contains(@class,'close')]")).click();
+    }
+
+
+    public void removeNotClickPlanet() {
+        removeNotClickPlanet("'PLANET','0:-11'");
+        removeNotClickPlanet("'PLANET','0:15'");
+        removeNotClickPlanet("'PLANET','0:57'");
+    }
+
+    public void removeNotClickPlanet(final String planetCode) {
+        var xpathEnd = "//*[name()='g' and @class='obj'][contains(@onclick,\"" + planetCode + "\")]/*[name()='text'][contains(@text-anchor,'end')]";
+        var xpathStart = "//*[name()='g' and @class='obj'][contains(@onclick,\"" + planetCode + "\")]/*[name()='text'][contains(@text-anchor,'start')]";
+        var removeEnd = driver.findElement(By.xpath(xpathEnd));
+
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        executor.executeScript("arguments[0].remove();", removeEnd);
+        var removeStart = driver.findElement(By.xpath(xpathStart));
+        executor.executeScript("arguments[0].remove();", removeStart);
+    }
+
+    public Set<String> getSortedList(final List<String> source) {
+        Set<String> reuslt = new HashSet<>();
+
+        while (reuslt.size()!= source.size()) {
+
+        }
+
+
+
+
+        return reuslt;
     }
 
 }
