@@ -8,7 +8,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -145,11 +144,9 @@ public class ResultPage {
     public Set<String> getSortedList(final List<String> source) {
         Set<String> reuslt = new HashSet<>();
 
-        while (reuslt.size()!= source.size()) {
+        while (reuslt.size() != source.size()) {
 
         }
-
-
 
 
         return reuslt;

@@ -36,9 +36,8 @@ public class AspectsPage {
         if (findCities.isEmpty()) {
             return Collections.emptyList();
         }
-        return findCities.stream().map(t->t.getAttribute("data-t")).collect(Collectors.toList());
+        return findCities.stream().map(t -> t.getAttribute("data-t")).collect(Collectors.toList());
     }
-
 
 
 }

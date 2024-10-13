@@ -15,8 +15,9 @@ import static java.util.Objects.isNull;
 public class NewCardPage {
 
     public WebDriver driver;
+
     public NewCardPage(WebDriver driver) {
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver, this);
         this.driver = driver;
     }
 
@@ -54,7 +55,7 @@ public class NewCardPage {
     private WebElement okBtn;
 
 
-    public void clickPlaceInput(){
+    public void clickPlaceInput() {
         WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@id,'enter')]")));
         placeInput.click();
@@ -82,6 +83,7 @@ public class NewCardPage {
         nameInput.clear();
         nameInput.sendKeys(name);
     }
+
     public void inputDay(final String day) {
         dayInput.clear();
         dayInput.sendKeys(day);

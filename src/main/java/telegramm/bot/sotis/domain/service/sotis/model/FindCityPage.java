@@ -23,7 +23,6 @@ public class FindCityPage {
         this.driver = driver;
     }
 
-
     @FindBy(xpath = "//div[contains(@id,'getcity')]")
     private WebElement findCityInputPage;
 

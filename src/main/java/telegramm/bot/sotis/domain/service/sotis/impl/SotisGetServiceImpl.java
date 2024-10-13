@@ -16,7 +16,6 @@ import telegramm.bot.sotis.domain.service.sotis.model.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -144,7 +143,7 @@ public class SotisGetServiceImpl implements SotisGetService {
         List<String> listA = new ArrayList<>();
         List<String> listB = new ArrayList<>();
 
-        planetCodeList.forEach(t ->{
+        planetCodeList.forEach(t -> {
             try {
                 var resultString = "";
                 resultPage.clickPlanet(t);
@@ -158,7 +157,7 @@ public class SotisGetServiceImpl implements SotisGetService {
         });
 
         while (!listA.isEmpty()) {
-            listA.forEach(t ->{
+            listA.forEach(t -> {
                 try {
                     var resultString = "";
                     resultPage.clickPlanet(t);
@@ -171,7 +170,7 @@ public class SotisGetServiceImpl implements SotisGetService {
                 }
             });
             listA.clear();
-            listB.forEach(t ->{
+            listB.forEach(t -> {
                 try {
                     var resultString = "";
                     resultPage.clickPlanet(t);
@@ -189,9 +188,9 @@ public class SotisGetServiceImpl implements SotisGetService {
     }
 
     private List<String> getAspectsInfo() {
-       mainPage.clickInstrumentsBtn();
-       mainPage.clickAspectsTableBtn();
+        mainPage.clickInstrumentsBtn();
+        mainPage.clickAspectsTableBtn();
 
-       return aspectsPage.getAspects();
+        return aspectsPage.getAspects();
     }
 }

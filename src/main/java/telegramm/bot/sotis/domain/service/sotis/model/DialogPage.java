@@ -13,8 +13,9 @@ import static java.time.Duration.ofSeconds;
 public class DialogPage {
 
     public WebDriver driver;
+
     public DialogPage(WebDriver driver) {
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver, this);
         this.driver = driver;
     }
 
@@ -25,11 +26,11 @@ public class DialogPage {
     @FindBy(xpath = "//a[h5[contains(text(),'Одинарная карта')]]")
     private WebElement singleCardBtn;
 
-    public boolean isViewDialogPage(){
-      return mainElement.isDisplayed();
+    public boolean isViewDialogPage() {
+        return mainElement.isDisplayed();
     }
 
-    public void clickSingleCardBtn(){
+    public void clickSingleCardBtn() {
         WebDriverWait wait = new WebDriverWait(driver, ofSeconds(50L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@id,'newchart')]")));
         singleCardBtn.click();
