@@ -53,9 +53,15 @@ public class ResultPage {
                         By.xpath("//table[contains(@class,'coord')]//tr[" + indexTr + "]/td[" + 1 + "]")
                 )
         );
-        return driver.findElement(
-                By.xpath("//table[contains(@class,'coord')]//tr[" + indexTr + "]/td[" + 1 + "]")
-        ).getText();
+        try {
+            return driver.findElement(
+                    By.xpath("//table[contains(@class,'coord')]//tr[" + indexTr + "]/td[" + 1 + "]")
+            ).getText();
+        } catch (StaleElementReferenceException e) {
+            return driver.findElement(
+                    By.xpath("//table[contains(@class,'coord')]//tr[" + indexTr + "]/td[" + 1 + "]")
+            ).getText();
+        }
     }
 
     public String getMiddleHouseByIndex(Integer indexTr) {
