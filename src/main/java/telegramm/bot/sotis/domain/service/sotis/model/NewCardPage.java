@@ -64,6 +64,7 @@ public class NewCardPage {
 
 
     public void selectMale(final String male) {
+        if (nonNull(male)) {
         WebDriverWait wait = new WebDriverWait(driver, ofSeconds(40L));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'sex')]/select")));
 
@@ -78,6 +79,7 @@ public class NewCardPage {
         if (male.equals("Ж")) {
             maleDropDown.selectByValue("w");
         }
+        }
     }
 
     public void inputName(final String name) {
@@ -88,6 +90,8 @@ public class NewCardPage {
     }
 
     public void inputDay(final String day) {
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(40L));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'sex')]/select")));
         if (nonNull(day)) {
             dayInput.clear();
             dayInput.sendKeys(day);

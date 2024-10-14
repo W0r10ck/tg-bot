@@ -70,14 +70,14 @@ public class SotisGetServiceImpl implements SotisGetService {
         try {
             openNewCardPage();
 
-            newCardPage.selectMale(source.getMale());
-            newCardPage.inputName(source.getName());
+//            newCardPage.selectMale(source.getMale());
+//            newCardPage.inputName(source.getName());
             newCardPage.inputDay(source.getDay());
             newCardPage.inputMonth(source.getMonth());
             newCardPage.inputYear(source.getYear());
             newCardPage.inputHour(source.getHour());
             newCardPage.inputMinute(source.getMinute());
-            newCardPage.inputSec(source.getSecond());
+//            newCardPage.inputSec(source.getSecond());
             newCardPage.clickPlaceInput();
             findCityPage.clickCity(source.getCityShort(), source.getCityFull());
             newCardPage.clickOk();
