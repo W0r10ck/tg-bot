@@ -3,9 +3,11 @@ package telegramm.bot.sotis.api.model.request;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class FullInfoRequest {
 
     private String male;

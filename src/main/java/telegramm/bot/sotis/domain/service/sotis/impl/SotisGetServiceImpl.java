@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.tags.form.SelectTag;
 import telegramm.bot.sotis.api.model.request.CitiesRequest;
 import telegramm.bot.sotis.api.model.request.FullInfoRequest;
 import telegramm.bot.sotis.api.model.response.CoordinateTable;
@@ -50,6 +48,7 @@ public class SotisGetServiceImpl implements SotisGetService {
 
     @Override
     public List<String> takeCities(CitiesRequest source) {
+        log.info("get city - " + source.getCity());
         try {
             openNewCardPage();
 
@@ -67,17 +66,18 @@ public class SotisGetServiceImpl implements SotisGetService {
 
     @Override
     public FullInfoResponse getFullInfo(FullInfoRequest source) {
+        log.info("get full info for - " + source);
         try {
             openNewCardPage();
 
-//            newCardPage.selectMale(source.getMale());
-//            newCardPage.inputName(source.getName());
+            newCardPage.selectMale(source.getMale());
+            newCardPage.inputName(source.getName());
             newCardPage.inputDay(source.getDay());
             newCardPage.inputMonth(source.getMonth());
             newCardPage.inputYear(source.getYear());
             newCardPage.inputHour(source.getHour());
             newCardPage.inputMinute(source.getMinute());
-//            newCardPage.inputSec(source.getSecond());
+            newCardPage.inputSec(source.getSecond());
             newCardPage.clickPlaceInput();
             findCityPage.clickCity(source.getCityShort(), source.getCityFull());
             newCardPage.clickOk();
@@ -113,6 +113,7 @@ public class SotisGetServiceImpl implements SotisGetService {
     }
 
     private List<CoordinateTable> getCoordinateTableList() {
+        log.info("try get coordinate table list");
         var result = new ArrayList<CoordinateTable>();
 
         for (int i = 0; i < 16; i++) {
@@ -133,11 +134,12 @@ public class SotisGetServiceImpl implements SotisGetService {
                             .build()
             );
         }
-
+        log.info("success got coordinate table list");
         return result;
     }
 
     private List<String> getHousesInfo() {
+        log.info("try get houses info");
         resultPage.removeNotClickPlanet();
         List<String> result = new ArrayList<>();
         Set<String> listA = new HashSet<>();
@@ -166,6 +168,7 @@ public class SotisGetServiceImpl implements SotisGetService {
                     resultPage.removeNotClickPlanet(t);
                     result.add(resultString);
                 } catch (ElementClickInterceptedException e) {
+                    log.info("some planet not be clickable - " + t);
                     listB.add(t);
                 }
             });
@@ -179,18 +182,21 @@ public class SotisGetServiceImpl implements SotisGetService {
                     resultPage.removeNotClickPlanet(t);
                     result.add(resultString);
                 } catch (ElementClickInterceptedException e) {
+                    log.info("some planet not be clickable again !!!!- " + t);
                     listA.add(t);
                 }
             });
         }
+        log.info("success got houses info");
 
         return result;
     }
 
     private List<String> getAspectsInfo() {
+        log.info("try get aspects info");
         mainPage.clickInstrumentsBtn();
         mainPage.clickAspectsTableBtn();
-
+        log.info("success got aspects info");
         return aspectsPage.getAspects();
     }
 }

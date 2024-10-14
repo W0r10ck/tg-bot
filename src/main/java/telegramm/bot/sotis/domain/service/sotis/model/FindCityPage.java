@@ -1,6 +1,7 @@
 package telegramm.bot.sotis.domain.service.sotis.model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -39,13 +40,17 @@ public class FindCityPage {
     }
 
     public List<String> getCities(final String city) {
-        inputCityForSearch(city);
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(40L));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'list')]/div")));
-        if (findCities.isEmpty()) {
+        try {
+            inputCityForSearch(city);
+            WebDriverWait wait = new WebDriverWait(driver, ofSeconds(20L));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'list')]/div")));
+            if (findCities.isEmpty()) {
+                return Collections.emptyList();
+            }
+            return findCities.stream().map(WebElement::getText).collect(Collectors.toList());
+        } catch (TimeoutException e) {
             return Collections.emptyList();
         }
-        return findCities.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
     public void clickCity(final String cityShort, final String cityFull) {
