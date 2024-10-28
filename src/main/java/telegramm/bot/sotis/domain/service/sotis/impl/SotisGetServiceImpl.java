@@ -7,9 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.stereotype.Service;
 import telegramm.bot.sotis.api.model.request.CitiesRequest;
-import telegramm.bot.sotis.api.model.request.FullInfoRequest;
-import telegramm.bot.sotis.api.model.response.CoordinateTable;
-import telegramm.bot.sotis.api.model.response.FullInfoResponse;
+import telegramm.bot.sotis.api.model.request.InfoRequest;
+import telegramm.bot.sotis.api.model.response.*;
 import telegramm.bot.sotis.domain.service.sotis.SotisGetService;
 import telegramm.bot.sotis.domain.service.sotis.model.*;
 
@@ -65,7 +64,7 @@ public class SotisGetServiceImpl implements SotisGetService {
     }
 
     @Override
-    public FullInfoResponse getFullInfo(FullInfoRequest source) {
+    public FullInfoResponse getFullInfo(InfoRequest source) {
         log.info("get full info for - " + source);
         try {
             openNewCardPage();
@@ -91,6 +90,64 @@ public class SotisGetServiceImpl implements SotisGetService {
             driver.quit();
         }
 
+    }
+
+    @Override
+    public CoordinateInfoResponse getCoordinateInfo(InfoRequest source) {
+        log.info("get full info for - " + source);
+        try {
+            openPageAndPutInfo(source);
+
+            return CoordinateInfoResponse.init()
+                    .setCoordinateTable(getCoordinateTableList())
+                    .build();
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Override
+    public HouseInfoResponse getHouseInfo(InfoRequest source) {
+        log.info("get full info for - " + source);
+        try {
+            openPageAndPutInfo(source);
+
+            return HouseInfoResponse.init()
+                    .setHousesInfo(getHousesInfo())
+                    .build();
+        } finally {
+            driver.quit();
+        }
+    }
+
+    @Override
+    public AspectInfoResponse getAspectsInfo(InfoRequest source) {
+        log.info("get full info for - " + source);
+        try {
+            openPageAndPutInfo(source);
+
+            return AspectInfoResponse.init()
+                    .setAspectsInfo(getAspectsInfo())
+                    .build();
+        } finally {
+            driver.quit();
+        }
+    }
+
+    private void openPageAndPutInfo(InfoRequest source) {
+        openNewCardPage();
+
+        newCardPage.selectMale(source.getMale());
+        newCardPage.inputName(source.getName());
+        newCardPage.inputDay(source.getDay());
+        newCardPage.inputMonth(source.getMonth());
+        newCardPage.inputYear(source.getYear());
+        newCardPage.inputHour(source.getHour());
+        newCardPage.inputMinute(source.getMinute());
+        newCardPage.inputSec(source.getSecond());
+        newCardPage.clickPlaceInput();
+        findCityPage.clickCity(source.getCityShort(), source.getCityFull());
+        newCardPage.clickOk();
     }
 
 
@@ -149,7 +206,7 @@ public class SotisGetServiceImpl implements SotisGetService {
             try {
                 var resultString = "";
                 resultPage.clickPlanet(t);
-                resultString = resultPage.getInfoAboutHouse();
+                resultString = resultPage.getInfoAboutHouse(t);
                 resultPage.clickExitPlanet();
                 resultPage.removeNotClickPlanet(t);
                 result.add(resultString);
@@ -163,7 +220,7 @@ public class SotisGetServiceImpl implements SotisGetService {
                 try {
                     var resultString = "";
                     resultPage.clickPlanet(t);
-                    resultString = resultPage.getInfoAboutHouse();
+                    resultString = resultPage.getInfoAboutHouse(t);
                     resultPage.clickExitPlanet();
                     resultPage.removeNotClickPlanet(t);
                     result.add(resultString);
@@ -177,7 +234,7 @@ public class SotisGetServiceImpl implements SotisGetService {
                 try {
                     var resultString = "";
                     resultPage.clickPlanet(t);
-                    resultString = resultPage.getInfoAboutHouse();
+                    resultString = resultPage.getInfoAboutHouse(t);
                     resultPage.clickExitPlanet();
                     resultPage.removeNotClickPlanet(t);
                     result.add(resultString);

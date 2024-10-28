@@ -4,9 +4,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import telegramm.bot.sotis.api.model.request.CitiesRequest;
-import telegramm.bot.sotis.api.model.request.FullInfoRequest;
-import telegramm.bot.sotis.api.model.response.CitiesResponse;
-import telegramm.bot.sotis.api.model.response.FullInfoResponse;
+import telegramm.bot.sotis.api.model.request.InfoRequest;
+import telegramm.bot.sotis.api.model.response.*;
 
 @RequestMapping("/bot-sotis")
 public interface TgBotController {
@@ -15,5 +14,14 @@ public interface TgBotController {
     CitiesResponse takeCities(@RequestBody CitiesRequest request);
 
     @PostMapping("/full-info")
-    FullInfoResponse getFullInfo(@RequestBody FullInfoRequest request);
+    FullInfoResponse getFullInfo(@RequestBody InfoRequest request);
+
+    @PostMapping("/coordinate-info")
+    CoordinateInfoResponse getCoordinateInfo(@RequestBody InfoRequest request);
+
+    @PostMapping("/house-info")
+    HouseInfoResponse getHouseInfo(@RequestBody InfoRequest request);
+
+    @PostMapping("/aspects-info")
+    AspectInfoResponse getAspectsInfo(@RequestBody InfoRequest request);
 }

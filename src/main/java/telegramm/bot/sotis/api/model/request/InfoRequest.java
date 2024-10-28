@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class FullInfoRequest {
+public class InfoRequest {
 
     private String male;
     private String name;

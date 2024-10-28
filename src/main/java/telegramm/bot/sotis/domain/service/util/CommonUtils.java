@@ -19,6 +19,9 @@ public class CommonUtils {
     private static final ImmutablePair<String, String> TWELFTH = new ImmutablePair<>("XII", "12");
 
     public static String changeHouse(String source) {
+        if (source.equals("0")) {
+            return source;
+        }
 
         return source
                 .replace(TWELFTH.left, TWELFTH.right)

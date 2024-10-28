@@ -1,9 +1,7 @@
 package telegramm.bot.sotis.domain.service.sotis.model;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
+import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,6 +14,7 @@ import static java.time.Duration.ofSeconds;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static telegramm.bot.sotis.domain.service.util.CommonUtils.changeHouse;
 
+@Slf4j
 public class ResultPage {
 
     public WebDriver driver;
@@ -114,15 +113,19 @@ public class ResultPage {
         }
     }
 
-    public String getInfoAboutHouse() {
-        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(40L));
-        wait.until(visibilityOfElementLocated(
-                By.xpath("//div[contains(@id,'cont')]//*[contains(text(),'дом')]"))
-        );
-        var result = driver.findElement(By.xpath("//div[contains(@id,'cont')]//*[contains(text(),'доме')]"))
-                .getText();
-
-        return changeHouse(result);
+    public String getInfoAboutHouse(final String planetCode) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, ofSeconds(20L));
+            wait.until(visibilityOfElementLocated(
+                    By.xpath("//div[contains(@id,'cont')]//*[contains(text(),'дом')]"))
+            );
+            var result = driver.findElement(By.xpath("//div[contains(@id,'cont')]//*[contains(text(),'доме')]"))
+                    .getText();
+            return changeHouse(result);
+        } catch (TimeoutException er) {
+            log.error("Не найдено информации по дому для планеты - " + planetCode);
+            return changeHouse("0");
+        }
     }
 
     public void clickExitPlanet() {
