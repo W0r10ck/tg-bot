@@ -26,12 +26,12 @@ public class CommonUtils {
         return source
                 .replace(TWELFTH.left, TWELFTH.right)
                 .replace(ELEVENTH.left, ELEVENTH.right)
-                .replace(TENTH.left, TENTH.right)
                 .replace(NINTH.left, NINTH.right)
                 .replace(EIGHTH.left, EIGHTH.right)
                 .replace(SEVENTH.left, SEVENTH.right)
                 .replace(SIXTH.left, SIXTH.right)
                 .replace(FOURTH.left, FOURTH.right)
+                .replace(TENTH.left, TENTH.right)
                 .replace(FIFTH.left, FIFTH.right)
                 .replace(THIRD.left, THIRD.right)
                 .replace(SECOND.left, SECOND.right)
