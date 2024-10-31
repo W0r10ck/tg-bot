@@ -6,10 +6,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import static java.time.Duration.ofSeconds;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 import static telegramm.bot.sotis.domain.service.util.CommonUtils.changeHouse;
@@ -139,6 +135,10 @@ public class ResultPage {
     }
 
     public void removeNotClickPlanet(final String planetCode) {
+        WebDriverWait wait = new WebDriverWait(driver, ofSeconds(20L));
+        wait.until(visibilityOfElementLocated(
+                By.xpath("//*[name()='g' and @class='obj'][contains(@onclick,\"" + planetCode + "\")]/*[name()='text']"))
+        );
         var xpath = "//*[name()='g' and @class='obj'][contains(@onclick,\"" + planetCode + "\")]/*[name()='text']";
 
         driver.findElements(By.xpath(xpath))

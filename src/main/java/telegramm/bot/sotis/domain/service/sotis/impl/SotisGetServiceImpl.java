@@ -41,6 +41,7 @@ public class SotisGetServiceImpl implements SotisGetService {
             "'PLANET','0:2'",
             "'PLANET','0:1'",
             "'PLANET','0:9'",
+            "'PLANET','0:3'",
             "'PLANET','0:8'"
     );
 
