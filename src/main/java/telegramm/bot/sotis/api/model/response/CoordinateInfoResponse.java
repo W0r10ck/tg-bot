@@ -15,4 +15,5 @@ import java.util.List;
 public class CoordinateInfoResponse {
 
     private List<CoordinateTable> coordinateTable;
+    private List<String> aspectsInfo;
 }

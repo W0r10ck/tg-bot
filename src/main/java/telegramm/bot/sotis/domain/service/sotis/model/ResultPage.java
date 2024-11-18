@@ -130,6 +130,7 @@ public class ResultPage {
 
     public void removeNotClickPlanet() {
         removeNotClickPlanet("'PLANET','0:-11'");
+        removeNotClickPlanet("'PLANET','0:9'");
         removeNotClickPlanet("'PLANET','0:15'");
         removeNotClickPlanet("'PLANET','0:57'");
     }

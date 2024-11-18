@@ -40,7 +40,7 @@ public class SotisGetServiceImpl implements SotisGetService {
             "'PLANET','0:0'",
             "'PLANET','0:2'",
             "'PLANET','0:1'",
-            "'PLANET','0:9'",
+//            "'PLANET','0:9'",
             "'PLANET','0:3'",
             "'PLANET','0:8'"
     );
@@ -101,6 +101,7 @@ public class SotisGetServiceImpl implements SotisGetService {
 
             return CoordinateInfoResponse.init()
                     .setCoordinateTable(getCoordinateTableList())
+                    .setAspectsInfo(getAspectsInfo())
                     .build();
         } finally {
             driver.quit();
